@@ -1,4 +1,4 @@
-//Copyright (c) 2014-2016 Václav Volhejn
+//Copyright (c) 2014-2016 Vï¿½clav Volhejn
 
 var canvas = document.getElementById('beigeCanvas');
 var ctx = canvas.getContext("2d");
@@ -37,6 +37,7 @@ var pressedSource = null;
 var trailMode = false;
 var lastTrailTime = 0;
 var lastEvent = {x: 0, y: 0};
+var drawTutorial = true;
 
 canvas.addEventListener('mousedown', function (event) {
     var newSource = getPosition(event);
@@ -45,6 +46,7 @@ canvas.addEventListener('mousedown', function (event) {
     sources.push(newSource);
     pressedSource = newSource;
     trailMode = false;
+    drawTutorial = false;
 }, false);
 
 canvas.addEventListener('mouseup', function () {
@@ -72,6 +74,12 @@ var update = function (delta) {
         if (Date.now() > sources[i].endTime) {
             sources.splice(i, 1);
         }
+    }
+    if (drawTutorial) {
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Press and hold to create a wave", 10, 30);
+        ctx.fillText("Move the mouse while holding to create a trail", 10, 60);
     }
     if (!trailMode) {
         if (pressedSource !== null) {
